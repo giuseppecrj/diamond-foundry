@@ -1,0 +1,17 @@
+[profile.default]
+src = 'src'
+out = 'out'
+libs = ['lib', "node_modules"]
+gas_reports = ["*"]
+optimizer = true
+optimizer_runs = 20000
+fs_permissions = [{ access = "read-write", path = "./client"}]
+verbosity = 3
+
+[rpc_endpoints]
+goerli = "${GOERLI_RPC_URL}"
+
+[etherscan]
+goerli = { key = "${ETHERSCAN_API_KEY}" }
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config

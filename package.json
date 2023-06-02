@@ -1,0 +1,21 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "main": "client/index.js",
+  "type": "module",
+  "author": "g <5714678+giuseppecrj@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "solhint": "solhint -f table src/**/*.sol",
+    "prettier:solidity": "prettier --write src/**/*.sol"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "ethers": "^6.1.0",
+    "husky": "^8.0.1",
+    "prettier": "^2.7.1",
+    "solhint": "^3.3.7",
+    "prettier-plugin-solidity": "^1.1.3",
+    "solhint-plugin-prettier": "^0.0.5"
+  }
+}
