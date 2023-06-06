@@ -10,8 +10,9 @@ import {DiamondCutUseCase} from "./DiamondCutUseCase.sol";
 
 // contracts
 import {DiamondCutUpgradeable} from "./DiamondCutUpgradeable.sol";
+import {Facet} from "../Facet.sol";
 
-contract DiamondCut is DiamondCutUpgradeable {
+contract DiamondCut is DiamondCutUpgradeable, Facet {
   function initialize() external initializer {
     __DiamondCut_init();
   }

@@ -7,13 +7,17 @@ import {IDiamond} from "../../IDiamond.sol";
 
 // libraries
 import {DiamondCutUseCase} from "./DiamondCutUseCase.sol";
+import {IntrospectionUseCase} from "../introspection/IntrospectionUseCase.sol";
+import {OwnableUseCase} from "../ownable/OwnableUseCase.sol";
 
 // contracts
-import {Facet} from "../Facet.sol";
+import {Initializable} from "../../utils/Initializable.sol";
 
-abstract contract DiamondCutUpgradeable is IDiamondCutEvents, Facet {
+abstract contract DiamondCutUpgradeable is IDiamondCutEvents, Initializable {
+  error DiamondCut_NotAllowed();
+
   function __DiamondCut_init() internal onlyInitializing {
-    // todo add interface
+    IntrospectionUseCase.addInterface(type(IDiamondCut).interfaceId);
   }
 
   function _diamondCut(
@@ -21,7 +25,7 @@ abstract contract DiamondCutUpgradeable is IDiamondCutEvents, Facet {
     address init,
     bytes memory initPayload
   ) internal {
-    if (!_canCutDiamonds()) revert("DiamondCut: Can't cut");
+    if (!_canCutDiamonds()) revert DiamondCut_NotAllowed();
 
     for (uint256 i; i < facetCuts.length; i++) {
       IDiamond.FacetCut memory facetCut = facetCuts[i];
@@ -52,6 +56,6 @@ abstract contract DiamondCutUpgradeable is IDiamondCutEvents, Facet {
   }
 
   function _canCutDiamonds() internal view virtual returns (bool) {
-    return true;
+    return OwnableUseCase.owner() == msg.sender;
   }
 }
