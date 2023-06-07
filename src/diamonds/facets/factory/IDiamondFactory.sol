@@ -11,7 +11,7 @@ import {IFacetRegistry} from "../registry/IFacetRegistry.sol";
 interface IDiamondFactoryStructs {
   struct BaseFacet {
     bytes32 facetId;
-    bytes initArgs;
+    bytes initPayload;
   }
 
   struct FacetInit {

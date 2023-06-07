@@ -10,6 +10,8 @@ import {IERC173} from "./IERC173.sol";
 import {OwnableUpgradeable} from "./OwnableUpgradeable.sol";
 import {Facet} from "../Facet.sol";
 
+import {console} from "forge-std/console.sol";
+
 contract Ownable is IERC173, OwnableUpgradeable, Facet {
   function initialize(address owner_) external initializer {
     __Ownable_init(owner_);

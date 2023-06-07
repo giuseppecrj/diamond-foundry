@@ -2,21 +2,21 @@
 pragma solidity ^0.8.19;
 
 //interfaces
-import {IDiamond} from "../src/IDiamond.sol";
-import {IDiamondLoupe} from "../src/facets/loupe/IDiamondLoupe.sol";
-import {IDiamondCut} from "../src/facets/cut/IDiamondCut.sol";
+import {IDiamond} from "src/diamonds/IDiamond.sol";
+import {IDiamondLoupe} from "src/diamonds/facets/loupe/IDiamondLoupe.sol";
+import {IDiamondCut} from "src/diamonds/facets/cut/IDiamondCut.sol";
 
 //libraries
 
 //contracts
 import {TestUtils} from "./utils/TestUtils.sol";
 
-import {Diamond} from "../src/Diamond.sol";
-import {DiamondCut} from "../src/facets/cut/DiamondCut.sol";
-import {DiamondLoupe} from "../src/facets/loupe/DiamondLoupe.sol";
-import {Ownable} from "../src/facets/ownable/Ownable.sol";
+import {Diamond} from "src/diamonds/Diamond.sol";
+import {DiamondCut} from "src/diamonds/facets/cut/DiamondCut.sol";
+import {DiamondLoupe} from "src/diamonds/facets/loupe/DiamondLoupe.sol";
+import {Ownable} from "src/diamonds/facets/ownable/Ownable.sol";
 
-import {DiamondMultiInit} from "../src/initializers/DiamondMultiInit.sol";
+import {DiamondMultiInit} from "src/diamonds/initializers/DiamondMultiInit.sol";
 
 // debugging
 import {console} from "forge-std/console.sol";
@@ -86,10 +86,21 @@ contract DiamondTest is TestUtils {
       DiamondLoupe.initialize.selector
     );
 
+    console.logBytes4(DiamondLoupe.initialize.selector);
+    console.logBytes(
+      abi.encodeWithSelector(DiamondLoupe.initialize.selector, "")
+    );
+
     diamondMultiInitAddresses[2] = address(ownableExtension);
     diamondMultiInitPayloads[2] = abi.encodeWithSelector(
       Ownable.initialize.selector,
       address(this)
+    );
+
+    console.logBytes4(Ownable.initialize.selector);
+
+    console.logBytes(
+      abi.encodeWithSelector(Ownable.initialize.selector, address(this))
     );
 
     Diamond.InitParams memory params = Diamond.InitParams({

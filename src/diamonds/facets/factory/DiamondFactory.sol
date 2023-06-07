@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity ^0.8.19;
+pragma solidity 0.8.19;
 
 // interfaces
 import {IDiamondFactory} from "./IDiamondFactory.sol";
@@ -12,6 +12,8 @@ import {Address} from "openzeppelin-contracts/contracts/utils/Address.sol";
 // contracts
 import {Diamond} from "../../Diamond.sol";
 import {DelegateCall} from "../../utils/DelegateCall.sol";
+
+import {console} from "forge-std/console.sol";
 
 contract DiamondFactory is IDiamondFactory, DelegateCall {
   IFacetRegistry public immutable facetRegistry;
@@ -73,10 +75,12 @@ contract DiamondFactory is IDiamondFactory, DelegateCall {
       bytes4 initializer = facetRegistry.facetInitializer(facet.facetId);
 
       if (initializer != bytes4(0)) {
-        diamondInitData[i] = FacetInit({
-          facet: facetAddress,
-          data: abi.encodeWithSelector(initializer, facet.initArgs)
-        });
+        // if user passes a payload, use that, otherwise use the initializer
+        bytes memory data = facet.initPayload.length == 0
+          ? abi.encodeWithSelector(initializer)
+          : facet.initPayload;
+
+        diamondInitData[i] = FacetInit({facet: facetAddress, data: data});
       }
     }
 
